@@ -4,17 +4,20 @@
 
 The objective of this project is to solve the Marble solitaire game.
 
-### **Rules:** 
+### **Game Rules :**
 
-<br>
+#### **Win Condition**
 
-<u>***Win condition :***</u>
+To win the Marble Solitaire game, you must remove all marbles except one. The final marble must end up in the center of the board.
 
-    To win the Marble Solitaire game, you must remove all marbles except one. The remaining marble end up in the center of the board.
+#### **Allowed Moves**
 
-<u>***Allowed moves :***</u>
+A marble can move by jumping over an adjacent marble into an empty space directly on the other side. The jump can be:
 
-    A marble can move by jumping over an adjacent marble into an empty space directly on the other side. The jump can be horizontal or vertical, but not diagonal. The jumped mable is removed from the board.
+- **Horizontal**: Moving left or right.
+- **Vertical**: Moving up or down.
+
+Diagonal jumps are not allowed. The marble that is jumped over is removed from the board.
 
 Here is what the game looks like:
 

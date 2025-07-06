@@ -11,9 +11,9 @@
 
 enum class Direction {
     UP,
-    DOWN,
     LEFT,
-    RIGHT
+    RIGHT,
+    DOWN,
 };
 
 extern std::map<Direction, int> directionOffsets;

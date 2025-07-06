@@ -1,5 +1,7 @@
 #include "board.hpp"
 
+#include <algorithm>
+
 uint64_t Board::rotate_clockwise(uint64_t marbles) 
 {
     uint64_t rotated = 0;
@@ -106,16 +108,36 @@ std::vector<Move> Board::get_possible_moves() const
 {
     std::vector<Move> possible_moves;
 
-    for (int index = 0; index < 49; ++index) 
+    for (int directionIndex = 0; directionIndex < 4; ++directionIndex) 
     {
-        if (!is_coordinate_valid(index)) continue;
+        Direction direction = static_cast<Direction>(directionIndex);
 
-        for (const auto& [direction, offset] : directionOffsets) 
+        int offset = directionOffsets[direction];
+
+        uint64_t possible_positions;
+
+        if(offset > 0) 
+            possible_positions = marbles & directionMask[direction]
+                & (marbles >> offset)
+                & ~(marbles >> (2 * offset));
+        else
+            possible_positions = marbles & directionMask[direction]
+                & (marbles << -offset)
+                & ~(marbles << (-2 * offset));
+
+        while (possible_positions != 0) 
         {
-            Move moove(index, direction);
-            if (!is_coordinate_valid(index + offset)) continue;
-            if (!is_coordinate_valid(index + 2 * offset)) continue;
-            if (is_move_possible(moove)) possible_moves.push_back(moove);
+            // Extract the index of the least significant set bit
+            int index = __builtin_ctzll(possible_positions);
+
+            // Get the possition
+            auto it = std::lower_bound(possible_moves.begin(), possible_moves.end(), index, [](const Move& move, int idx) 
+                { return move.index < idx; });
+
+            possible_moves.emplace(it, index, direction);
+
+            // Clear the least significant set bit
+            possible_positions &= possible_positions - 1;
         }
     }
 
